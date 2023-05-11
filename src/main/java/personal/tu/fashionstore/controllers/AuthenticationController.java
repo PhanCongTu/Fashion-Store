@@ -68,7 +68,7 @@ public class AuthenticationController {
     public ResponseEntity<TokenDetails> login(@Valid @RequestBody Login dto) {
         UserDto userDto = iUserService.getUserByUserNameAndPassword(dto.getUsername(), dto.getPassword());
         if (!userDto.getIsActive())
-            throw new UserNotFoundAuthenticationException("User has been unactived");
+            throw new UserNotFoundAuthenticationException("User has been unactivated");
         UserAuthenticationToken authenticationToken = new UserAuthenticationToken(
                 dto.getUsername(),
                 dto.getPassword(),
