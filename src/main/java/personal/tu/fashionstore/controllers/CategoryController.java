@@ -21,6 +21,17 @@ public class CategoryController {
         this.iCategoryService = iCategoryService;
     }
 
+    /***
+     *
+     * @param searchText: từ khóa muốn tìm kiếm (name)
+     * @param page: Số thứ tự của trang
+     * @param column: Field muốn sắp xếp theo
+     * @param size: Số lượng kết quả của 1 trang
+     * @param sortType: sắp xếp theo:
+     *                true => tăng dần,
+     *                false => giảm dần
+     * @return: Trả về 1 page các category dựa trên các thông tin đầu vào
+     */
     @GetMapping("")
     public ResponseEntity<Page<CategoryDto>> getAllCategory(@RequestParam(defaultValue = "") String searchText,
                                                             @RequestParam(defaultValue = "0") int page,
@@ -31,17 +42,33 @@ public class CategoryController {
         return new ResponseEntity<>(iCategoryService.filter(searchText, page, size, sort, column), HttpStatus.OK);
     }
 
+    /***
+     *
+     * @param id: Truyền vào id của category muốn tìm
+     * @return: Trả về thông tin của category đó
+     */
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> getCategoryById(@PathVariable("id") String id) {
         return new ResponseEntity<>(iCategoryService.getCategoryById(id), HttpStatus.OK);
     }
 
+    /***
+     *
+     * @param createCategoryDto: Truyền vào DTO chứa thông tin
+     * @return: Trả về CategoryDto chứa Category mới tạo
+     */
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryDto> createCategory(@RequestBody CreateCategoryDto createCategoryDto) {
         return new ResponseEntity<>(iCategoryService.createCategory(createCategoryDto), HttpStatus.CREATED);
     }
 
+    /***
+     *
+     * @param categoryId: Truyền vào id của category muốn cập nhật
+     * @param updateCategoryDto: Truyền vào DTO chứa các thông tin
+     * @return: Trả về CategoryDto chứa Category sau khi được cập nhật
+     */
     @PutMapping(value = "/update/{categoryId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryDto> updateCategory(@PathVariable String categoryId,
@@ -50,6 +77,11 @@ public class CategoryController {
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
 
+    /***
+     *
+     * @param categoryId: Truyền vào id của category muốn đổi trạng thái
+     * @return: Thông báo thay đổi thành công
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/change-status/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> changeStatus(@PathVariable String categoryId) {

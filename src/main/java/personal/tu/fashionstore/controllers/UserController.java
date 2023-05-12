@@ -67,7 +67,6 @@ public class UserController {
     }
 
     /***
-     * @Authorize: ADMIN, USER
      * @param username: truyền vào username muốn kiểm tra
      * @return :    true: đã tồn tại
      *              false: chưa tồn tại
