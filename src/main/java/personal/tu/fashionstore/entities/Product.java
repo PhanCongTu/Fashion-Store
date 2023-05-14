@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,4 +29,6 @@ public class Product {
     private Date updateAt= new Date(new java.util.Date().getTime());
     @DBRef
     private Category category;
+    @DBRef
+    private List<ProductImage> images;
 }

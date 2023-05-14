@@ -12,18 +12,20 @@ import personal.tu.fashionstore.dtos.Product.ProductDto;
 import personal.tu.fashionstore.dtos.Product.UpdateProductDto;
 import personal.tu.fashionstore.entities.Category;
 import personal.tu.fashionstore.entities.Product;
+import personal.tu.fashionstore.entities.ProductImage;
 import personal.tu.fashionstore.exceptions.InvalidException;
 import personal.tu.fashionstore.exceptions.NotFoundException;
 import personal.tu.fashionstore.repositories.ProductRepository;
 import personal.tu.fashionstore.services.Category.ICategoryService;
 import personal.tu.fashionstore.untils.PageUtils;
+
 import java.util.*;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 @AllArgsConstructor
-public class ProductServiceImpl implements IProductService{
+public class ProductServiceImpl implements IProductService {
     private final ProductRepository productRepository;
     private final ICategoryService iCategoryService;
     private ModelMapper modelMapper;
@@ -40,7 +42,7 @@ public class ProductServiceImpl implements IProductService{
             if (categoryDto == null)
                 throw new NotFoundException("Cant find category!");
             products = productRepository.
-                    findByProductNameContainingAndCategoryAllIgnoreCaseAndIsActive(searchText, modelMapper.map(categoryDto, Category.class),true, pageable);
+                    findByProductNameContainingAndCategoryAllIgnoreCaseAndIsActive(searchText, modelMapper.map(categoryDto, Category.class), true, pageable);
         }
         return products.map(product -> modelMapper.map(product, ProductDto.class));
     }
@@ -134,5 +136,20 @@ public class ProductServiceImpl implements IProductService{
             throw new ResponseStatusException(NOT_FOUND, "Do not find any product");
         }
         return productDtos;
+    }
+
+    @Override
+    public void addImageIntoProduct(String productId, ProductImage productImage) {
+        Product product = productRepository.findById(productId).orElse(null);
+        if (product != null) {
+            if (product.getImages() == null) {
+                List<ProductImage> images = new ArrayList<>();
+                images.add(productImage);
+                product.setImages(images);
+            } else {
+                product.getImages().add(productImage);
+            }
+            productRepository.save(product);
+        }
     }
 }

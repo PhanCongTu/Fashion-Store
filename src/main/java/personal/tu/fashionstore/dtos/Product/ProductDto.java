@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import personal.tu.fashionstore.dtos.Category.CategoryDto;
+import personal.tu.fashionstore.dtos.ProductImage.ProductImageDto;
+
+import java.util.List;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -18,4 +22,5 @@ public class ProductDto {
     private int price;
     private Boolean isActive = true;
     private CategoryDto category;
+    private List<ProductImageDto> images;
 }

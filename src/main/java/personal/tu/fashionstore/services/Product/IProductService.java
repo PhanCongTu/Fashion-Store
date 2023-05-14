@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import personal.tu.fashionstore.dtos.Product.CreateProductDto;
 import personal.tu.fashionstore.dtos.Product.ProductDto;
 import personal.tu.fashionstore.dtos.Product.UpdateProductDto;
+import personal.tu.fashionstore.entities.ProductImage;
 
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface IProductService {
     List<ProductDto> getTop8NewProducts();
 
     List<ProductDto> getProductByCategoryId(String category);
+
+    void addImageIntoProduct(String productId, ProductImage productImage);
 }

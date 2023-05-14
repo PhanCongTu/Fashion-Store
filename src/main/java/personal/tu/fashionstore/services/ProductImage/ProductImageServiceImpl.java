@@ -11,9 +11,13 @@ import personal.tu.fashionstore.entities.Product;
 import personal.tu.fashionstore.entities.ProductImage;
 import personal.tu.fashionstore.exceptions.NotFoundException;
 import personal.tu.fashionstore.repositories.ProductImageRepository;
+import personal.tu.fashionstore.repositories.ProductRepository;
 import personal.tu.fashionstore.services.Product.IProductService;
 import personal.tu.fashionstore.untils.PageUtils;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +26,7 @@ import java.util.Optional;
 public class ProductImageServiceImpl implements IProductImageService {
     private final ProductImageRepository productImageRepository;
     private final IProductService iProductService;
+    private final ProductRepository productRepository;
     private ModelMapper modelMapper;
 
     @Override
@@ -40,6 +45,7 @@ public class ProductImageServiceImpl implements IProductImageService {
         ProductImage newImage = modelMapper.map(productImageDto, ProductImage.class);
         newImage.setProduct(modelMapper.map(iProductService.getProductById(productId), Product.class));
         ProductImage savedImage = productImageRepository.save(newImage);
+        iProductService.addImageIntoProduct(productId, savedImage);
         return modelMapper.map(savedImage, ProductImageDto.class);
     }
 
