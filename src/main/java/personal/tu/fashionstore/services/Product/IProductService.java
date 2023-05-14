@@ -28,4 +28,6 @@ public interface IProductService {
     List<ProductDto> getProductByCategoryId(String category);
 
     void addImageIntoProduct(String productId, ProductImage productImage);
+
+    void deleteImageInProduct(String productId, ProductImage productImage);
 }

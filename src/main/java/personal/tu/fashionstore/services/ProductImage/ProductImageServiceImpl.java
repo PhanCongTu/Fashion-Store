@@ -15,8 +15,6 @@ import personal.tu.fashionstore.repositories.ProductRepository;
 import personal.tu.fashionstore.services.Product.IProductService;
 import personal.tu.fashionstore.untils.PageUtils;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,8 +49,9 @@ public class ProductImageServiceImpl implements IProductImageService {
 
     @Override
     public void deleteProductImage(String pImage) {
-        Optional<ProductImage> existingPImage = productImageRepository.findById(pImage);
-        if (!existingPImage.isPresent()) throw new NotFoundException("Product Image do not exist!");
-        productImageRepository.delete(existingPImage.get());
+        ProductImage existingPImage = productImageRepository.findById(pImage).orElse(null);
+        if (existingPImage==null) throw new NotFoundException("Product Image do not exist!");
+        iProductService.deleteImageInProduct(existingPImage.getProduct().getId(), existingPImage);
+        productImageRepository.delete(existingPImage);
     }
 }

@@ -141,15 +141,24 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public void addImageIntoProduct(String productId, ProductImage productImage) {
         Product product = productRepository.findById(productId).orElse(null);
-        if (product != null) {
-            if (product.getImages() == null) {
-                List<ProductImage> images = new ArrayList<>();
-                images.add(productImage);
-                product.setImages(images);
-            } else {
-                product.getImages().add(productImage);
-            }
-            productRepository.save(product);
+        if (product == null) throw new NotFoundException("Can not find product!");
+        if (product.getImages() == null) {
+            List<ProductImage> images = new ArrayList<>();
+            images.add(productImage);
+            product.setImages(images);
+        } else {
+            product.getImages().add(productImage);
         }
+        productRepository.save(product);
+    }
+
+    @Override
+    public void deleteImageInProduct(String productId, ProductImage productImage) {
+        Product product = productRepository.findById(productId).orElse(null);
+        if (product == null) throw new NotFoundException("Can not find product!");
+        List<ProductImage> images = product.getImages();
+        images.removeIf(pi -> Objects.equals(pi.getId(), productImage.getId()));
+        product.setImages(images);
+        productRepository.save(product);
     }
 }
