@@ -23,8 +23,13 @@ public class CartServiceImpl implements ICartService{
     private final CartRepository cartRepository;
     private final IUserService iUserService;
     private ModelMapper modelMapper;
-
-
+    @Override
+    public List<CartDto> getAllCartByUserId(String userId){
+        List<Cart> carts = cartRepository.findAllByUserId(userId);
+        return carts.stream()
+                .map((cart) -> modelMapper.map(cart, CartDto.class))
+                .collect(Collectors.toList());
+    }
     @Override
     public Page<CartDto> getAllCartByUserId(String userId, int page, int size, String sort, String column) {
         Pageable pageable = PageUtils.createPageable(page, size, sort, column);
@@ -49,7 +54,7 @@ public class CartServiceImpl implements ICartService{
             if (Objects.equals(cart.getProduct().getId(), cartDto.getProduct().getId()) && cart.getSize().trim().equals(cartDto.getSize().trim())){
                 cartDto = cart ;
                 int newQuantity = cart.getQuantity() + plus;
-                if(newQuantity<0) newQuantity =0;
+                if(newQuantity<1) newQuantity =1;
                 cartDto.setQuantity(newQuantity);
                 break;
             }

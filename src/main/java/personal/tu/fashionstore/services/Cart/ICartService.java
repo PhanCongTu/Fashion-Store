@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ICartService {
 
-
+    List<CartDto> getAllCartByUserId(String userId);
     Page<CartDto> getAllCartByUserId(String userId, int page, int size, String sort, String column);
 
     CartDto getCartById(String cartId);

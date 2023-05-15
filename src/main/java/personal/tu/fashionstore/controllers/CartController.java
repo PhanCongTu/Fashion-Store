@@ -67,7 +67,7 @@ public class CartController {
                                                    @RequestParam(defaultValue = "12") int size,
                                                    @RequestParam(defaultValue = "true") boolean sortType) {
         UserDto userDto = iUserService.getUserByUserName(principal.getName());
-        String sort = (sortType ? "asc" : "desc") ;
+        String sort = (sortType ? "asc" : "desc");
         return new ResponseEntity<>(iCartService.getAllCartByUserId(userDto.getId(), page, size, sort, column), HttpStatus.OK);
 
     }

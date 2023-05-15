@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 import personal.tu.fashionstore.entities.User;
 import personal.tu.fashionstore.repositories.UserRepository;
 import personal.tu.fashionstore.untils.EnumRole;
@@ -11,6 +12,7 @@ import personal.tu.fashionstore.untils.EnumRole;
 import java.util.Arrays;
 
 @SpringBootApplication
+@EnableAsync
 public class FashionStoreApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepository userRepository;
