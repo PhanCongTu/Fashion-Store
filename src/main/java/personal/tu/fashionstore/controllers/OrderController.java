@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import personal.tu.fashionstore.dtos.Cart.CartDto;
 import personal.tu.fashionstore.dtos.Order.AddOrderDto;
 import personal.tu.fashionstore.dtos.Order.OrderDto;
+import personal.tu.fashionstore.dtos.Order.RevenueDto;
 import personal.tu.fashionstore.dtos.OrderItem.OrderItemDto;
 import personal.tu.fashionstore.dtos.User.UserDto;
 import personal.tu.fashionstore.entities.Order;
@@ -191,5 +192,15 @@ public class OrderController {
         orderRepository.save(modelMapper.map(newOrder, Order.class));
         iMailService.sendOrderMail(loginedUser, newOrder,orderItemDtos);
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
+    }
+    @GetMapping("/revenue")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<OrderDto>> getRevenue(@RequestBody RevenueDto revenueDto,
+                                                     @RequestParam(defaultValue = "createAt") String column,
+                                                     @RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(defaultValue = "12") int size,
+                                                     @RequestParam(defaultValue = "true") boolean sortType){
+        String sort = (sortType ? "asc" : "desc");
+        return new ResponseEntity<>(iOrderService.getRevenue(revenueDto, page, size,sort,column), HttpStatus.OK);
     }
 }
