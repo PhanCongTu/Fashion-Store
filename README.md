@@ -3,7 +3,7 @@
 ## Công nghệ sử dụng
 <b>Programming language: </b>  Java \
 <b>Framework: </b>Spring Boot, Spring Security:JWT Authentication & Authorisation \
-<b>Database: </b>MongoDB \
+<b>Database: </b>MongoDB 
 ## Các chức năng
 ### Người xem (chưa đăng nhập)
 - Xem các sản phẩm bán chạy và các sản phẩm mới
