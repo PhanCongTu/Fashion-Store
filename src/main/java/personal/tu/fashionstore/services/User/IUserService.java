@@ -36,4 +36,6 @@ public interface IUserService {
     UserDto getMyInf(Principal principal);
 
     boolean resetPassword(String username, String newPass);
+
+    String getResetPasswordCode(String username);
 }

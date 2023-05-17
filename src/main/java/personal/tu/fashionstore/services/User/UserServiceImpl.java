@@ -14,6 +14,7 @@ import personal.tu.fashionstore.exceptions.DuplicateKeyException;
 import personal.tu.fashionstore.exceptions.InvalidException;
 import personal.tu.fashionstore.exceptions.NotFoundException;
 import personal.tu.fashionstore.repositories.UserRepository;
+import personal.tu.fashionstore.services.Mail.IMailService;
 import personal.tu.fashionstore.untils.EnumRole;
 import personal.tu.fashionstore.untils.PageUtils;
 
@@ -21,11 +22,13 @@ import java.security.Principal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
+    private final IMailService iMailService;
     private ModelMapper modelMapper;
     @Override
     public UserDto createUser(SignUp signUp) {
@@ -139,8 +142,6 @@ public class UserServiceImpl implements IUserService {
         userRepository.save(user);
     }
 
-
-
     @Override
     public UserDto getMyInf(Principal principal){
         return modelMapper.map(userRepository.findByUserName(principal.getName()), UserDto.class);
@@ -149,11 +150,19 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public boolean resetPassword(String username, String newPass) {
-
         User existingUser = userRepository.findByUserName(username);
         if (existingUser==null) throw new NotFoundException("User not found!");
         existingUser.setPassword(newPass);
         userRepository.save(existingUser);
         return true;
+    }
+    @Override
+    public String getResetPasswordCode(String username){
+        User existingUser = userRepository.findByUserName(username);
+        if (existingUser==null) throw new NotFoundException("User not found!");
+        Random random = new Random();
+        String resetCode = String.format("%04d", random.nextInt(10000));
+        iMailService.sendCodeForgetPassword(existingUser.getEmail(), resetCode);
+        return resetCode;
     }
 }

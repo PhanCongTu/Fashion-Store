@@ -135,4 +135,15 @@ public class UserController {
         iUserService.deleteUser(userId);
         return new ResponseEntity<>(String.format("User có id là %s đã bị xóa", userId), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/get-reset-code")
+    public ResponseEntity<String> GetResetPasswordCode(@RequestParam String username){
+        String resetCode = iUserService.getResetPasswordCode(username);
+        return new ResponseEntity<>(resetCode, HttpStatus.OK);
+    }
+    @PutMapping(value = "/reset-password")
+    public ResponseEntity<Boolean> ResetPassword(@RequestParam String username,
+                                                 @RequestParam String newPassword){
+        return new ResponseEntity<>(iUserService.resetPassword(username, newPassword), HttpStatus.OK);
+    }
 }

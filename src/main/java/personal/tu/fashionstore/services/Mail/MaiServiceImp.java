@@ -9,7 +9,6 @@ import personal.tu.fashionstore.Model.Mail;
 import personal.tu.fashionstore.dtos.Order.OrderDto;
 import personal.tu.fashionstore.dtos.OrderItem.OrderItemDto;
 import personal.tu.fashionstore.dtos.User.UserDto;
-import personal.tu.fashionstore.untils.EnumOrderStatus;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -83,6 +82,17 @@ public class MaiServiceImp implements IMailService {
         String Content = "Đơn hàng được đặt lúc: " + orderDto.getCreateAt()+" của bạn đã được đổi trạng thái thành " +
                 newStatus;
         Content += " Fashion Store xin chân thành cảm ơn!";
+        mail.setMailContent(Content);
+        sendEmail(mail);
+    }
+    @Override
+    @Async
+    public void sendCodeForgetPassword(String email, String resetCode) {
+        Mail mail = new Mail();
+        mail.setMailFrom("phancongtu25032002@gmail.com");
+        mail.setMailTo(email);
+        mail.setMailSubject("Fashion Store - Đặt lại mật khẩu");
+        String Content = "Mã đặt lại mật khẩu của bạn là (4 số): " + resetCode;
         mail.setMailContent(Content);
         sendEmail(mail);
     }

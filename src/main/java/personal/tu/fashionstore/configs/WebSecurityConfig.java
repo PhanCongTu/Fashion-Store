@@ -56,6 +56,7 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET, "/uploads/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/files/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/user/reset-password").permitAll()
                 .antMatchers(HttpMethod.POST, pattern.toArray(new String[0])).permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
