@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-//@ApiPrefixController("files")
 @RequestMapping("/files")
 @CrossOrigin("*")
 public class FileController {

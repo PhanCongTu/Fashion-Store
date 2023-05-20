@@ -17,17 +17,11 @@ import java.util.List;
 @Document(collection = "order")
 public class Order {
     private String id;
-
     private String address;
-
     private String phoneNumber;
-
     private String note;
-
     private String status;
-
     private double total;
-
     private Date createAt = new Date(new java.util.Date().getTime());
     @DBRef
     private User user;

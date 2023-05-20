@@ -54,7 +54,6 @@ public class UserServiceImpl implements IUserService {
         existingUser.get().getRoles().add(EnumRole.ROLE_ADMIN.name());
         userRepository.save(existingUser.get());
     }
-
     @Override
     public Page<UserDto> filter(String search, int page, int size,
                                 String sort, String column) {
@@ -62,9 +61,6 @@ public class UserServiceImpl implements IUserService {
         Page<User> users = userRepository.findByNameContainingOrEmailContainingOrPhoneNumberContainingAllIgnoreCase(search, search, search, pageable);
         return users.map(user -> modelMapper.map(user, UserDto.class));
     }
-
-
-
     @Override
     public UserDto getUserById(String userId) {
         Optional<User> UserOp = userRepository.findById(userId);
@@ -72,19 +68,13 @@ public class UserServiceImpl implements IUserService {
             throw new NotFoundException("Cant find User!");
         return modelMapper.map(UserOp.get(), UserDto.class);
     }
-
-
     @Override
     public Boolean checkExistByUsername(String username) {
         {
             return userRepository.existsByUserName(username);
         }
     }
-
-
-
     // Cập nhật lại User (cập nhật lại toàn bộ các thuộc tính)
-
     @Override
     public UserDto updateUser(Principal principal, UpdateUserDto userDto) {
         User existingUser = userRepository.findByUserName(principal.getName());
@@ -102,8 +92,6 @@ public class UserServiceImpl implements IUserService {
         existingUser.setUpdateAt(new Date(new java.util.Date().getTime()));
         return modelMapper.map(userRepository.save(existingUser), UserDto.class);
     }
-
-
     @Override
     public void changeStatusUser(String userId) {
         Optional<User> existingUser = userRepository.findById(userId);
@@ -113,9 +101,6 @@ public class UserServiceImpl implements IUserService {
         existingUser.get().setUpdateAt(new Date(new java.util.Date().getTime()));
         userRepository.save(existingUser.get());
     }
-
-
-
     @Override
     public UserDto getUserByUserName(String userName) {
         User user = userRepository.findByUserName(userName);
@@ -123,16 +108,12 @@ public class UserServiceImpl implements IUserService {
         if (!user.getIsActive()) throw new NotFoundException("User has been deleted !");
         return modelMapper.map(user, UserDto.class);
     }
-
-
     @Override
     public void deleteUser(String userId) {
         Optional<User> existingUser = userRepository.findById(userId);
         if (!existingUser.isPresent()) throw new NotFoundException("Unable to dalete User!");
         userRepository.deleteById(userId);
     }
-
-
     @Override
     public void changePassword(ChangePasswordDto userDto, Principal principal) {
         User user = userRepository.findByUserName(principal.getName());
@@ -141,13 +122,10 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(userDto.getNewPassword());
         userRepository.save(user);
     }
-
     @Override
     public UserDto getMyInf(Principal principal){
         return modelMapper.map(userRepository.findByUserName(principal.getName()), UserDto.class);
     }
-
-
     @Override
     public boolean resetPassword(String username, String newPass) {
         User existingUser = userRepository.findByUserName(username);

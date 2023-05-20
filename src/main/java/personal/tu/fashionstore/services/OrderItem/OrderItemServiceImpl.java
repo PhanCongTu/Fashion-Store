@@ -19,7 +19,6 @@ import personal.tu.fashionstore.untils.PageUtils;
 public class OrderItemServiceImpl implements IOrderItemService{
     private OrderItemRepository orderItemRepository;
     private ModelMapper modelMapper;
-    private IProductService iProductService;
     private ProductRepository productRepository;
 
     @Override

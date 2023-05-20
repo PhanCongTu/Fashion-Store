@@ -85,7 +85,12 @@ public class CartController {
         UserDto userDto = iUserService.getUserByUserName(principal.getName());
         ProductDto productDto = iproductService.getProductById(createCartDto.getProductId());
         CartDto newCartDto = new CartDto();
-        newCartDto.setQuantity(createCartDto.getQuantity());
+        if(createCartDto.getQuantity()<=0){
+            newCartDto.setQuantity(1);
+        }
+        else{
+            newCartDto.setQuantity(createCartDto.getQuantity());
+        }
         newCartDto.setProduct(productDto);
         newCartDto.setSize(createCartDto.getSize());
         CartDto savedCartDto = iCartService.addOrUpdateCart(newCartDto, userDto.getId());

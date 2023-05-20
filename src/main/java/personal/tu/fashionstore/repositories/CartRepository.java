@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface CartRepository extends MongoRepository<Cart, String> {
     List<Cart> findAllByUserId(String UserId);
-
     Page<Cart> findAllByUserId(String UserId, Pageable pageable);
     int countByUserId(String UserId);
     void deleteById(String cartId);

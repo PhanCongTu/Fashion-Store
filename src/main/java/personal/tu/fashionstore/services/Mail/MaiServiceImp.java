@@ -17,7 +17,6 @@ import java.util.List;
 
 @Service
 public class MaiServiceImp implements IMailService {
-
     @Autowired
     private JavaMailSender javaMailSender;
     @Override

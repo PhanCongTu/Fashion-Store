@@ -15,8 +15,6 @@ import personal.tu.fashionstore.repositories.ProductRepository;
 import personal.tu.fashionstore.services.Product.IProductService;
 import personal.tu.fashionstore.untils.PageUtils;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
